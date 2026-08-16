@@ -202,38 +202,68 @@ class TestUrbanRoutes:
         assert routes_page.get_to() == data.address_to
 
     def test_select_comfort_tariff(self):
+        # Cada prueba es independiente: abre la app y prepara sus precondiciones
+        # reutilizando los métodos de UrbanRoutesPage (no depende de otras pruebas).
+        self.driver.get(data.urban_routes_url)
         routes_page = UrbanRoutesPage(self.driver)
+        routes_page.set_route(data.address_from, data.address_to)
         routes_page.click_call_taxi()
         routes_page.select_comfort_tariff()
         assert routes_page.is_comfort_selected()
 
     def test_fill_phone_number(self):
+        self.driver.get(data.urban_routes_url)
         routes_page = UrbanRoutesPage(self.driver)
+        routes_page.set_route(data.address_from, data.address_to)
+        routes_page.click_call_taxi()
+        routes_page.select_comfort_tariff()
         routes_page.fill_phone_number(data.phone_number)
         assert routes_page.get_phone_number() == data.phone_number
 
     def test_add_credit_card(self):
+        self.driver.get(data.urban_routes_url)
         routes_page = UrbanRoutesPage(self.driver)
+        routes_page.set_route(data.address_from, data.address_to)
+        routes_page.click_call_taxi()
+        routes_page.select_comfort_tariff()
         routes_page.add_credit_card(data.card_number, data.card_code)
         assert routes_page.get_payment_method() == 'Card'
 
     def test_write_message_for_driver(self):
+        self.driver.get(data.urban_routes_url)
         routes_page = UrbanRoutesPage(self.driver)
+        routes_page.set_route(data.address_from, data.address_to)
+        routes_page.click_call_taxi()
+        routes_page.select_comfort_tariff()
         routes_page.write_message_for_driver(data.message_for_driver)
         assert routes_page.get_message_for_driver() == data.message_for_driver
 
     def test_order_blanket_and_handkerchiefs(self):
+        self.driver.get(data.urban_routes_url)
         routes_page = UrbanRoutesPage(self.driver)
+        routes_page.set_route(data.address_from, data.address_to)
+        routes_page.click_call_taxi()
+        routes_page.select_comfort_tariff()
         routes_page.order_blanket_and_handkerchiefs()
         assert routes_page.get_blanket_and_handkerchiefs() is True
 
     def test_order_two_ice_creams(self):
+        self.driver.get(data.urban_routes_url)
         routes_page = UrbanRoutesPage(self.driver)
+        routes_page.set_route(data.address_from, data.address_to)
+        routes_page.click_call_taxi()
+        routes_page.select_comfort_tariff()
         routes_page.order_ice_creams(2)
         assert routes_page.get_ice_cream_count() == 2
 
     def test_car_search_modal_appears(self):
+        self.driver.get(data.urban_routes_url)
         routes_page = UrbanRoutesPage(self.driver)
+        routes_page.set_route(data.address_from, data.address_to)
+        routes_page.click_call_taxi()
+        routes_page.select_comfort_tariff()
+        routes_page.fill_phone_number(data.phone_number)
+        routes_page.add_credit_card(data.card_number, data.card_code)
         routes_page.click_order_button()
         assert routes_page.is_car_search_modal_visible()
 
